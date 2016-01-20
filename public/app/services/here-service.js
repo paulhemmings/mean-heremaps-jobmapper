@@ -8,65 +8,61 @@ angular
     .module('MappingApp')
     .service('hereService', ['$rootScope', function HereService($rootScope) {
 
-        var mapInstance;
-        var markers = [];
-        var zoomIncrement = 1;
-
-        function onDisplayReady() {
-            $rootScope.$broadcast('heremaps-ready');
-        }
-
-        function loadMap(container, options) {
-            mapInstance = new nokia.maps.map.Display(container, options);
-
-            mapInstance.addComponent( new nokia.maps.map.component.zoom.DoubleClick());
-            mapInstance.addComponent( new nokia.maps.map.component.panning.Drag());
-            mapInstance.addComponent( new nokia.maps.map.component.panning.Kinetic());
-
-            mapInstance.addListener('displayready', onDisplayReady);
-        }
-
-        function zoomIn() {
-            var newZoomLevel = mapInstance.zoomLevel - zoomIncrement;
-            mapInstance.setZoomLevel(newZoomLevel);
-        }
-
-        function zoomOut() {
-            var newZoomLevel = mapInstance.zoomLevel + zoomIncrement;
-            mapInstance.setZoomLevel(newZoomLevel);
-        }
-
-        function createMarker(lat, long, options) {
-
-            var extendedOptions = options || {
-                title: 'marker',
-                visibility: true,
-                draggable: false
-            };
-
-            extendedOptions.icon = 'images/office-building.png';
-            extendedOptions.anchor = new nokia.maps.util.Point(32, 32);
-
-            return new nokia.maps.map.Marker(
-               new nokia.maps.geo.Coordinate(lat, long),
-               options
-            );
-        }
-
-        function addMarker(lat, long, options) {
-            // var marker = new nokia.maps.map.StandardMarker(location, options);
-            var marker = createMarker(lat, long, options);
-            markers.push(marker);
-            mapInstance.objects.add(marker);
-        }
-
         return {
-            onDisplayReady: onDisplayReady,
-            loadMap: loadMap,
-            zoomIn: zoomIn,
-            zoomOut: zoomOut,
-            createMarker: createMarker,
-            addMarker: addMarker
-        };
+
+          mapInstance : null,
+          markers : [],
+          zoomIncrement : 1,
+
+          getMapInstance : function() {
+              return this.mapInstance;
+          },
+
+          onDisplayReady : function() {
+              $rootScope.$broadcast('heremaps-ready');
+          },
+
+          loadMap : function(container, options) {
+              this.mapInstance = new nokia.maps.map.Display(container, options);
+              this.getMapInstance().addComponent( new nokia.maps.map.component.zoom.DoubleClick());
+              this.getMapInstance().addComponent( new nokia.maps.map.component.panning.Drag());
+              this.getMapInstance().addComponent( new nokia.maps.map.component.panning.Kinetic());
+              this.getMapInstance().addListener('displayready', this.onDisplayReady);
+          },
+
+          zoomIn : function() {
+              var newZoomLevel = this.getMapInstance().zoomLevel - this.zoomIncrement;
+              this.getMapInstance().setZoomLevel(newZoomLevel);
+          },
+
+          zoomOut : function() {
+              var newZoomLevel = this.getMapInstance().zoomLevel + this.zoomIncrement;
+              this.getMapInstance().setZoomLevel(newZoomLevel);
+          },
+
+          createMarker : function(lat, long, options) {
+
+              var extendedOptions = options || {
+                  title: 'marker',
+                  visibility: true,
+                  draggable: false
+              };
+
+              extendedOptions.icon = 'images/office-building.png';
+              extendedOptions.anchor = new nokia.maps.util.Point(32, 32);
+
+              return new nokia.maps.map.Marker(
+                 new nokia.maps.geo.Coordinate(lat, long),
+                 options
+              );
+          },
+
+          addMarker : function(lat, long, options) {
+              // var marker = new nokia.maps.map.StandardMarker(location, options);
+              var marker = this.createMarker(lat, long, options);
+              this.markers.push(marker);
+              this.getMapInstance().objects.add(marker);
+          }
+      };
 
     }]);
