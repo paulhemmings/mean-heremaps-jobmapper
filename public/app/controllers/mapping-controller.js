@@ -41,8 +41,8 @@ angular
             }
 
             function onMapReady() {
-                jobsService.jobs().then(onJobsLoaded);
-            }            
+                jobsService.listJobs().then(onJobsLoaded);
+            }
 
             function initialize() {
                 $rootScope.$on('heremaps-loaded', onMapLoaded);

@@ -15,18 +15,19 @@ module.exports = function (karma) {
 
     /******* Core Dependencies (Order Matters!) ******************/
         './lib/angular/angular.js',
+        './lib/angular-ui-router/release/angular-ui-router.min.js',
         './app/**/*.js',
 
     /******* Test Libraries (relative to basePath) ******************/
         './lib/angular-mocks/angular-mocks.js',
 
     /******* Test Fixtures ******************/
-      {
-        pattern: './fixtures/*.html',
-        watched: false,
-        served: true,
-        included: false
-      },
+      // {
+      //   pattern: './fixtures/*.html',
+      //   watched: false,
+      //   served: true,
+      //   included: false
+      // },
 
     /******* Jasmine Tests ******************/
       './../test/client/app/**/*-test.js'

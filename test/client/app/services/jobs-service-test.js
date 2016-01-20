@@ -1,6 +1,5 @@
 describe('MappingApp', function () {
 
-    angular.module('MappingApp', []);
     var service,
         mockHttp = {
         };
@@ -14,10 +13,13 @@ describe('MappingApp', function () {
         beforeEach(inject(function (jobsService, $http) {
             service = jobsService;
             mockHttp = $http;
+            spyOn(service, 'makeRequest');
         }));
 
-        it('should contain a jobsService', function() {
-          expect(service).not.to.equal(null);
+        it("should list jobs", function() {
+            service.listJobs();
+            expect(service.makeRequest).toHaveBeenCalledWith('/api/jobs', 'GET');
         });
+
     });
 });
