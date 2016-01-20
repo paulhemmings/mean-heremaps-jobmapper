@@ -23,7 +23,7 @@ angular
             mapInstance.addComponent( new nokia.maps.map.component.panning.Drag());
             mapInstance.addComponent( new nokia.maps.map.component.panning.Kinetic());
 
-            mapInstance.addListener("displayready", onDisplayReady);
+            mapInstance.addListener('displayready', onDisplayReady);
         }
 
         function zoomIn() {
@@ -39,12 +39,12 @@ angular
         function createMarker(lat, long, options) {
 
             var extendedOptions = options || {
-                title: "marker",
+                title: 'marker',
                 visibility: true,
                 draggable: false
             };
 
-            extendedOptions.icon = "images/office-building.png";
+            extendedOptions.icon = 'images/office-building.png';
             extendedOptions.anchor = new nokia.maps.util.Point(32, 32);
 
             return new nokia.maps.map.Marker(
@@ -61,9 +61,11 @@ angular
         }
 
         return {
+            onDisplayReady: onDisplayReady,
             loadMap: loadMap,
             zoomIn: zoomIn,
             zoomOut: zoomOut,
+            createMarker: createMarker,
             addMarker: addMarker
         };
 

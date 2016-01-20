@@ -19,9 +19,13 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    // not sure (remove?)
+    pkg: grunt.file.readJSON('package.json'),
+
     // Project settings
     yeoman: appConfig,
 
+    // Monitor files for changes so they can be compiled and included in App.
     watch: {
         sass: {
             files: '<%= yeoman.public %>/scss/{,*/}*.{scss,sass}',
@@ -70,6 +74,7 @@ module.exports = function (grunt) {
       }
     },
 
+    // uglify (minimize) JS for deployment
     uglify: {
       options: {
         mangle: false
@@ -83,6 +88,7 @@ module.exports = function (grunt) {
       }
     },
 
+    // concatonate all the JS for minimization
     concat: {
       options: {
         separator: ';',
@@ -93,6 +99,7 @@ module.exports = function (grunt) {
       },
     },
 
+    // use SASS to build the SCSS into CSS (gem install sass)
     sass : {
         dev: {
             options: {
@@ -164,10 +171,30 @@ module.exports = function (grunt) {
         extensions: 'js',
         specNameMatcher: 'spec'
       },
-      all: ['server/']
+      all: ['test/server/']
+    },
+
+    // run command line tasks
+    run: {
+        install: {
+            cmd: 'npm',
+            args: [
+                'install'
+            ]
+        },
+        start: {
+            cmd: 'npm',
+            args: [
+                'start'
+            ]
+        }
     }
 
   });
+
+  grunt.registerTask('start', [
+    'run:start'
+  ]);
 
   grunt.registerTask('test', [
     // 'clean:server',
@@ -179,6 +206,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'run:install',
     'wiredep',
     'sass:dev',
   ]);
@@ -194,6 +222,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'test',
-    'build'
+    'build',
+    'start'
   ]);
 };

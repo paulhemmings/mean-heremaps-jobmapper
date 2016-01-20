@@ -29,7 +29,7 @@ module.exports = function (karma) {
       },
 
     /******* Jasmine Tests ******************/
-      './../test/client/app/**/*-spec.js'
+      './../test/client/app/**/*-test.js'
 
     ],
 

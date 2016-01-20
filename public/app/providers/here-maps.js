@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('MappingApp').provider('heremaps', function () {
     this._initialized = false;
     this._loaded = false;

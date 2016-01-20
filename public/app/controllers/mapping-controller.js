@@ -9,25 +9,21 @@ angular
 
             $scope.zoomIn = function() {
                 hereService.zoomIn();
-            }
+            };
 
             $scope.zoomOut = function() {
                 hereService.zoomOut();
-            }
+            };
 
             $scope.addMarker = function() {
                 hereService.addMarker(52.51, 13.4, {
-                   text: "Hi!", // Small label
+                   text: 'Hi!', // Small label
                    draggable: false // Make the marker non-draggable
                 });
-            }
+            };
 
-            function onMapReady(event, args) {
-                jobsService.jobs().then(onJobsLoaded);
-            }
-
-            function onMapLoaded(event, args) {
-                hereService.loadMap(document.getElementById("mapContainer"), {
+            function onMapLoaded() {
+                hereService.loadMap(document.getElementById('mapContainer'), {
                     // Zoom level for the map
                     zoomLevel: 10,
                     // Map center coordinates
@@ -43,6 +39,10 @@ angular
                     });
                 });
             }
+
+            function onMapReady() {
+                jobsService.jobs().then(onJobsLoaded);
+            }            
 
             function initialize() {
                 $rootScope.$on('heremaps-loaded', onMapLoaded);
