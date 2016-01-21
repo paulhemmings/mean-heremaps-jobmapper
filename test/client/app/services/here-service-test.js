@@ -3,7 +3,7 @@
 describe("Here Service", function() {
 
   // define test wide variables
-  
+
   var service, rootScope;
   var mapInstance = jasmine.createSpyObj('map', ['addComponent', 'setZoomLevel']);
 
@@ -62,8 +62,18 @@ describe("Here Service", function() {
         return fakeMarker;
     });
 
-    // when
-    var lat, long, options;
+    // when no lat or long
+    var lat, long, options = {};
+    service.addMarker(lat, long, options);
+
+    // then
+    expect(service.createMarker).not.toHaveBeenCalledWith(lat, long, options);
+    expect(service.getMapInstance).not.toHaveBeenCalled();
+    expect(service.markers.length).not.toEqual(1);
+    expect(mapInstance.objects.add).not.toHaveBeenCalledWith(fakeMarker);
+
+    // when lat and long provided
+    lat = 10, long = 10, options = {};
     service.addMarker(lat, long, options);
 
     // then
@@ -71,7 +81,6 @@ describe("Here Service", function() {
     expect(service.getMapInstance).toHaveBeenCalled();
     expect(service.markers.length).toEqual(1);
     expect(mapInstance.objects.add).toHaveBeenCalledWith(fakeMarker);
-
   });
 
 

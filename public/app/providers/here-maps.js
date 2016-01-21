@@ -21,8 +21,8 @@ angular.module('MappingApp').provider('heremaps', function () {
 
             elem.onload = function () {
                 // Load features
-                nokia.Features.load(
-                    nokia.Features.getFeaturesFromMatrix(['all']),
+                window.nokia.Features.load(
+                    window.nokia.Features.getFeaturesFromMatrix(['all']),
                     function () {
                         $log.info('HERE maps API loaded');
 
@@ -58,7 +58,7 @@ angular.module('MappingApp').provider('heremaps', function () {
             this.settings.appId = appId;
 
             if (this._loaded) {
-                nokia.Settings.set('app_id', this.settings.appId);
+                window.nokia.Settings.set('app_id', this.settings.appId);
             }
         }
 
@@ -70,7 +70,7 @@ angular.module('MappingApp').provider('heremaps', function () {
             this.settings.appCode = appCode;
 
             if (this._loaded) {
-                nokia.Settings.set('app_code', this.settings.appCode);
+                window.nokia.Settings.set('app_code', this.settings.appCode);
             }
         }
 
@@ -82,7 +82,7 @@ angular.module('MappingApp').provider('heremaps', function () {
             this.settings.secureConnection = secureConnection;
 
             if (secureConnection === true && this._loaded) {
-                nokia.Settings.set('secureConnection', 'force');
+                window.nokia.Settings.set('secureConnection', 'force');
             }
         }
 
@@ -94,7 +94,7 @@ angular.module('MappingApp').provider('heremaps', function () {
             this.defaultSettings.testMode = testMode;
 
             if (testMode === true && this._loaded) {
-                nokia.Settings.set('serviceMode', 'cit');
+                window.nokia.Settings.set('serviceMode', 'cit');
             }
         }
 

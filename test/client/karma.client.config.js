@@ -36,7 +36,7 @@ module.exports = function (karma) {
 
     preprocessors: {
       // define which files to include in coverage reports
-      './../../public/app/**/*.js': ['coverage']
+      './app/**/*.js': ['coverage']
     },
 
     coverageReporter: {

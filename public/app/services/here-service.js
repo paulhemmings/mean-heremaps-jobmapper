@@ -6,7 +6,7 @@
 
 angular
     .module('MappingApp')
-    .service('hereService', ['$rootScope', function HereService($rootScope) {
+    .service('hereService', ['$rootScope', 'nokiaFactory', function HereService($rootScope, nokiaFactory) {
 
         return {
 
@@ -23,10 +23,10 @@ angular
           },
 
           loadMap : function(container, options) {
-              this.mapInstance = new nokia.maps.map.Display(container, options);
-              this.getMapInstance().addComponent( new nokia.maps.map.component.zoom.DoubleClick());
-              this.getMapInstance().addComponent( new nokia.maps.map.component.panning.Drag());
-              this.getMapInstance().addComponent( new nokia.maps.map.component.panning.Kinetic());
+              this.mapInstance = new (nokiaFactory().maps.map).Display(container, options);
+              this.getMapInstance().addComponent( new (nokiaFactory().maps.map).component.zoom.DoubleClick());
+              this.getMapInstance().addComponent( new (nokiaFactory().maps.map).component.panning.Drag());
+              this.getMapInstance().addComponent( new (nokiaFactory().maps.map).component.panning.Kinetic());
               this.getMapInstance().addListener('displayready', this.onDisplayReady);
           },
 
@@ -49,10 +49,10 @@ angular
               };
 
               extendedOptions.icon = 'images/office-building.png';
-              extendedOptions.anchor = new nokia.maps.util.Point(32, 32);
+              extendedOptions.anchor = new (nokiaFactory().maps.util).Point(32, 32);
 
-              return new nokia.maps.map.Marker(
-                 new nokia.maps.geo.Coordinate(lat, long),
+              return new (nokiaFactory().maps.map).Marker(
+                 new (nokiaFactory().maps.geo).Coordinate(lat, long),
                  options
               );
           },

@@ -1,22 +1,23 @@
 describe('Jobs Service', function () {
 
     var service,
-        mockHttp = {
-        };
+        httpBackend;
 
     beforeEach(function () {
         module('MappingApp');
     });
 
-    beforeEach(inject(function (jobsService, $http) {
+    beforeEach(inject(function (jobsService, $httpBackend) {
         service = jobsService;
-        mockHttp = $http;
-        spyOn(service, 'makeRequest');
+        httpBackend = $httpBackend;
     }));
 
     it("should list jobs", function() {
         service.listJobs();
-        expect(service.makeRequest).toHaveBeenCalledWith('/api/jobs', 'GET');
+        httpBackend.expect({
+            url: '/api/jobs',
+            method: 'GET'
+        }).respond(200, "[{ success : 'true', id : 123 }]");
     });
 
 });
