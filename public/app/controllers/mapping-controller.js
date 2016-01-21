@@ -59,6 +59,7 @@ angular
             $scope.__test__ = {
                 initialize: initialize,
                 onMapLoaded: onMapLoaded,
+                onJobsLoaded: onJobsLoaded,
                 onMapReady: onMapReady
             };
 

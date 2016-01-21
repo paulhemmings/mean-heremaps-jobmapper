@@ -4,18 +4,59 @@ describe("Here Service", function() {
 
   // define test wide variables
 
-  var service, rootScope;
-  var mapInstance = jasmine.createSpyObj('map', ['addComponent', 'setZoomLevel']);
+  var service, rootScope, nokia;
+  var mapInstance = jasmine.createSpyObj('map', ['addComponent', 'setZoomLevel', 'addListener']);
+
+  // Define the overly complicated Nokia mock object
+  // there HAS to be a better way of defining these objects, right?
+
+  var mockNokiaObject = {
+      maps: {
+          map : {
+              Display : function() {},
+              Marker : function() {},
+              component : {
+                  zoom : {
+                      DoubleClick : function() {}
+                  },
+                  panning : {
+                      Drag : function() {},
+                      Kinetic : function() {}
+                  }
+              }
+          },
+          util : {
+            Point : function() {}
+          },
+          geo : jasmine.createSpyObj('geo', ['Coordinate'])
+      }
+  };
+
+  // Define the object to be returned *outside* the method otherwise
+  // it returns a new instance each time, causing the expect calls will fail.
+
+  var mockNokia = function() {
+      return mockNokiaObject;
+  };
 
   // instantiate the main app
 
   beforeEach(angular.mock.module('MappingApp'));
 
+  // inject the mock nokia object as a provider for the nokiaFactory
+
+  beforeEach(function() {
+      angular.mock.module(function ($provide) {
+          $provide.value('nokiaFactory', mockNokia);
+      });
+  });
+
   // inject hereService and rootScope
 
-  beforeEach(angular.mock.inject(function (hereService, $rootScope) {
+  beforeEach(angular.mock.inject(function (hereService, $rootScope, nokiaFactory) {
       service = hereService;
       rootScope = $rootScope;
+      nokia = nokiaFactory;
   }));
 
   // Hide map instance.
@@ -24,9 +65,33 @@ describe("Here Service", function() {
       spyOn(service, 'getMapInstance').and.callFake(function() {
           return mapInstance;
       });
+      service.zoomIncrement = 1;
       mapInstance.zoomLevel = 1;
       mapInstance.objects = jasmine.createSpyObj('objects', ['add']);
-      service.zoomIncrement = 1;
+
+  });
+
+  // Verify we've injected the mock nokia object (bit of a null test)
+
+  it('should return value from mock dependency for nokia-factory', function () {
+       expect(nokia).toEqual(mockNokia);
+   });
+
+  it("should load a map with the required components", function() {
+      var container, options;
+      service.loadMap(container, options);
+
+  });
+
+  it ("should create a marker using the coordiantes provided", function() {
+      // given
+      var lat, long, options;
+      spyOn(mockNokiaObject.maps.map, 'Marker');
+      // when
+      service.createMarker(lat, long, options);
+      // then
+      expect(mockNokiaObject.maps.geo.Coordinate).toHaveBeenCalledWith(lat, long);
+      expect(mockNokiaObject.maps.map.Marker).toHaveBeenCalled();
   });
 
   it("should notify when map is ready to be used", function() {
