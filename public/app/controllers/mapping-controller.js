@@ -33,9 +33,9 @@ angular
             }
 
             function onJobsLoaded(response) {
-                response.data.jobs.forEach(function(job) {
-                    hereService.addMarker(job.lat, job.long, {
-                      text: job.name
+                response.data.forEach(function(job) {
+                    hereService.addMarker(job.latitude, job.longitude, {
+                        text: job.name
                     });
                 });
             }

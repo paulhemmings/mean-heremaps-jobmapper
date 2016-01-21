@@ -3,13 +3,19 @@
 var express = require('express');
 var app = express();
 var fs = require('fs');
+var argv = require('optimist').argv;
 var services = {};
 var staticFiles = __dirname + '/../public';
+var DEFAULT_PORT = 3000;
 
 // server static
 
 console.log('serve static files from:: ' + staticFiles);
 app.use(express.static(staticFiles));
+
+// bootstrap database and models
+
+require( __dirname + '/database/database').initialize(argv.backendIp || 'localhost');
 
 // bootstrap services
 
@@ -31,6 +37,6 @@ fs.readdirSync(modelsPath).forEach(function(file) {
 
 // start app
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || DEFAULT_PORT, function () {
   console.log('Example app listening on port 3000!');
 });

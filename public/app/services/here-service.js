@@ -59,6 +59,9 @@ angular
 
           addMarker : function(lat, long, options) {
               // var marker = new nokia.maps.map.StandardMarker(location, options);
+              if (!lat || !long) {
+                  return;
+              }
               var marker = this.createMarker(lat, long, options);
               this.markers.push(marker);
               this.getMapInstance().objects.add(marker);
