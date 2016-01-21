@@ -6,7 +6,7 @@
   "scripts": {
     "build": "grunt build",
     "test": "grunt test",
-    "start": "node ./scripts/app.js",
+    "start": "NODE_ENV=development node ./scripts/app.js",
     "postinstall": "bower install"
   },
   "keywords": [

@@ -7,6 +7,8 @@ var argv = require('optimist').argv;
 var services = {};
 var staticFiles = __dirname + '/../public';
 var DEFAULT_PORT = 3000;
+var env = process.env.NODE_ENV; /* defaults to production! */
+var config = require('./config/config.' + env);
 
 // server static
 
@@ -15,7 +17,7 @@ app.use(express.static(staticFiles));
 
 // bootstrap database and models
 
-require( __dirname + '/database/database').initialize(argv.backendIp || 'localhost');
+require( __dirname + '/database/database').initialize(argv.backendIp || config.mongo.location || 'localhost');
 
 // bootstrap services
 
@@ -32,7 +34,7 @@ var modelsPath = __dirname + '/resources';
 fs.readdirSync(modelsPath).forEach(function(file) {
 	console.log('load resource:: ' + file);
   var resource = require(modelsPath + '/' + file);
-  resource.initialize(app, services);
+  resource.initialize(app, services, config);
 });
 
 // start app

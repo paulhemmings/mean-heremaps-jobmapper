@@ -20,7 +20,7 @@ angular.module('MappingApp', ['ui.router']);
 
 angular
     .module('MappingApp')
-    .config(['$stateProvider', '$urlRouterProvider','heremapsProvider', function($stateProvider, $urlRouterProvider, heremapsProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/mapping');
 
@@ -35,13 +35,7 @@ angular
                 }
             });
     }])
-
-    /*
-     * Register here:
-     * developer.here.com
-     */
-
     .run( function($rootScope, heremaps) {
-        heremaps.appId("");
-        heremaps.appCode("");
+        // this will fire off the heremaps provider
+        // so it is *needed* even if it isn't actually used. 
     });
