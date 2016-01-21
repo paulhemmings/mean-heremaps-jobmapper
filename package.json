@@ -2,7 +2,7 @@
   "name": "mean-first",
   "version": "1.0.0",
   "description": "test out the full mean stack (never used express)",
-  "main": "index.js",
+  "main": "scripts/app.js",
   "scripts": {
     "build": "grunt build",
     "test": "grunt test",
