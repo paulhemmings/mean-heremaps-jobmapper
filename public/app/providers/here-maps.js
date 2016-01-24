@@ -36,18 +36,18 @@ angular.module('MappingApp').provider('heremaps', function () {
                 self.secureConnection(self.settings.secureConnection);
                 self.testMode(self.settings.testMode);
 
-                $rootScope.$broadcast('heremaps-loaded');
+                $rootScope.$broadcast('mapping-event-loaded');
             },
             function (error) {
                 $log.error('HERE maps API failed to load. ' + error);
 
-                $rootScope.$broadcast('heremaps-error', error);
+                $rootScope.$broadcast('mapping-event-error', error);
             },
             null,
             false
         );
         // notify maps fully initialized
-        $rootScope.$broadcast('heremaps-initialized');
+        $rootScope.$broadcast('mapping-event-initialized');
     };
 
     // Curry a method with empty signature that I can use as an event handler

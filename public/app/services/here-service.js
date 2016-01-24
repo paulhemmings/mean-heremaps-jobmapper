@@ -19,11 +19,18 @@ angular
           },
 
           onDisplayReady : function() {
-              $rootScope.$broadcast('heremaps-ready');
+              $rootScope.$broadcast('mapping-event-ready');
           },
 
-          loadMap : function(container, options) {
-              this.mapInstance = new (nokiaFactory().maps.map).Display(container, options);
+          loadMap : function(containerId, options) {
+              var container = document.getElementById('containerId');
+              var hereOptions = {
+                  // Zoom level for the map
+                  zoomLevel: options.zoomLevel,
+                  // Map center coordinates
+                  center: [options.latitude, options.longitude]
+              }
+              this.mapInstance = new (nokiaFactory().maps.map).Display(container, hereOptions);
               this.getMapInstance().addComponent( new (nokiaFactory().maps.map).component.zoom.DoubleClick());
               this.getMapInstance().addComponent( new (nokiaFactory().maps.map).component.panning.Drag());
               this.getMapInstance().addComponent( new (nokiaFactory().maps.map).component.panning.Kinetic());

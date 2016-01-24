@@ -35,7 +35,7 @@ angular
                 }
             });
     }])
-    .run( function($rootScope, heremaps) {
+    .run( function($rootScope, openLayersMap) {
         // this will fire off the heremaps provider
-        // so it is *needed* even if it isn't actually used. 
+        // so it is *needed* even if it isn't actually used.
     });

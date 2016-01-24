@@ -2,39 +2,37 @@
 
 angular
     .module('MappingApp')
-    .controller('MappingController', ['$scope', '$rootScope', 'hereService', 'jobsService',
-        function($scope, $rootScope, hereService, jobsService) {
+    .controller('MappingController', ['$scope', '$rootScope', 'openLayersService', 'jobsService',
+        function($scope, $rootScope, openLayersService, jobsService) {
 
             $scope.jobLocations = [];
 
             $scope.zoomIn = function() {
-                hereService.zoomIn();
+                openLayersService.zoomIn();
             };
 
             $scope.zoomOut = function() {
-                hereService.zoomOut();
+                openLayersService.zoomOut();
             };
 
             $scope.addMarker = function() {
-                hereService.addMarker(52.51, 13.4, {
+                openLayersService.addMarker(37.7895630, -122.4003550, {
                    text: 'Hi!', // Small label
                    draggable: false // Make the marker non-draggable
                 });
             };
 
             function onMapLoaded() {
-                hereService.loadMap(document.getElementById('mapContainer'), {
-                    // Zoom level for the map
+                openLayersService.loadMap('mapContainer', {
                     zoomLevel: 10,
-                    // Map center coordinates
-                    center: [37.7895630, -122.4003550]
-                    }
-                );
+                    latitude:37.7895630,
+                    longitude:-122.4003550
+                });
             }
 
             function onJobsLoaded(response) {
                 response.data.forEach(function(job) {
-                    hereService.addMarker(job.latitude, job.longitude, {
+                    openLayersService.addMarker(job.latitude, job.longitude, {
                         text: job.name
                     });
                 });
@@ -45,8 +43,8 @@ angular
             }
 
             function initialize() {
-                $rootScope.$on('heremaps-loaded', onMapLoaded);
-                $rootScope.$on('heremaps-ready', onMapReady);
+                $rootScope.$on('mapping-event-loaded', onMapLoaded);
+                $rootScope.$on('mapping-event-ready', onMapReady);
             }
 
             initialize();
